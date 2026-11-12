@@ -1,0 +1,15 @@
+CREATE TABLE IF NOT EXISTS users (
+ id UUID PRIMARY KEY DEFAULT gen_random_uuid(), name TEXT NOT NULL,
+ email TEXT NOT NULL UNIQUE, password_hash TEXT NOT NULL
+);
+CREATE TABLE IF NOT EXISTS sessions (
+ token_hash TEXT PRIMARY KEY, user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+ expires_at TIMESTAMPTZ NOT NULL
+);
+CREATE TABLE IF NOT EXISTS readings (
+ id UUID PRIMARY KEY DEFAULT gen_random_uuid(), user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+ date DATE NOT NULL, slot SMALLINT NOT NULL CHECK(slot BETWEEN 0 AND 3),
+ value SMALLINT NOT NULL CHECK(value BETWEEN 40 AND 600),
+ UNIQUE(user_id,date,slot)
+);
+CREATE INDEX IF NOT EXISTS sessions_expiry_idx ON sessions(expires_at);
