@@ -78,12 +78,10 @@ export function createApp(db) {
       password.length < 8 ||
       Buffer.byteLength(password) > 72
     )
-      return res
-        .status(400)
-        .json({
-          error:
-            "Password must contain at least 8 characters and at most 72 bytes.",
-        });
+      return res.status(400).json({
+        error:
+          "Password must contain at least 8 characters and at most 72 bytes.",
+      });
     try {
       const {
         rows: [user],
@@ -164,11 +162,9 @@ export function createApp(db) {
       limit < 1 ||
       limit > 100
     )
-      return res
-        .status(400)
-        .json({
-          error: "Page must be positive and limit must be between 1 and 100.",
-        });
+      return res.status(400).json({
+        error: "Page must be positive and limit must be between 1 and 100.",
+      });
     const { rows } = await db.query(
       "SELECT id,date::text,slot,value FROM readings WHERE user_id=$1 ORDER BY date DESC,slot ASC LIMIT $2 OFFSET $3",
       [req.user.id, limit, (page - 1) * limit],
@@ -201,11 +197,9 @@ export function createApp(db) {
       res.status(req.params.id ? 200 : 201).json(reading);
     } catch (e) {
       if (e.code === "23505")
-        return res
-          .status(409)
-          .json({
-            error: `You already have a ${slots[slot]} reading for this date. You can add only 4 readings per day.`,
-          });
+        return res.status(409).json({
+          error: `You already have a ${slots[slot]} reading for this date. You can add only 4 readings per day.`,
+        });
       throw e;
     }
   }
@@ -250,14 +244,12 @@ export function createApp(db) {
   );
   app.use((err, req, res, next) => {
     console.error(err.message);
-    res
-      .status(err.status === 400 ? 400 : 500)
-      .json({
-        error:
-          err.status === 400
-            ? "Invalid JSON request."
-            : "Something went wrong. Please try again.",
-      });
+    res.status(err.status === 400 ? 400 : 500).json({
+      error:
+        err.status === 400
+          ? "Invalid JSON request."
+          : "Something went wrong. Please try again.",
+    });
   });
   return app;
 }

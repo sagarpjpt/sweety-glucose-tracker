@@ -13,7 +13,11 @@ const cluster = new EmbeddedPostgres({
   onLog: () => {},
   onError: console.error,
 });
-try { await access("/tmp/sweety-preview-pg/PG_VERSION"); } catch { await cluster.initialise(); }
+try {
+  await access("/tmp/sweety-preview-pg/PG_VERSION");
+} catch {
+  await cluster.initialise();
+}
 await cluster.start();
 const db = new pg.Pool({
   connectionString:
