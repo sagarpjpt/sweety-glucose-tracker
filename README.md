@@ -1,5 +1,9 @@
 # Sweety
 
+**Live demo:** https://sweety-glucose-tracker-taupe.vercel.app/
+
+Demo login: `demo@sweety.example` / `DemoPass123!` (synthetic data only).
+
 A personal blood glucose record, built for the Kenpath Junior Full Stack Developer assessment. React + Express + PostgreSQL. No MongoDB: the brief's explicit database requirement is PostgreSQL.
 
 ![Daily notebook](docs/screenshots/daily.jpg)
