@@ -2,6 +2,7 @@ import express from "express";
 import cookieParser from "cookie-parser";
 import helmet from "helmet";
 import rateLimit from "express-rate-limit";
+import { rateLimitKey } from "./rate-limit-key.js";
 import bcrypt from "bcrypt";
 import { randomBytes, createHash } from "node:crypto";
 import {
@@ -39,6 +40,7 @@ export function createApp(db) {
   });
   const authLimit = rateLimit({
     windowMs: 15 * 60 * 1000,
+    keyGenerator: rateLimitKey,
     limit: 50,
     standardHeaders: "draft-8",
     legacyHeaders: false,
