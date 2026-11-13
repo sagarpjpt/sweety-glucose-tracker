@@ -40,7 +40,7 @@ For a production build: `npm run build` then `npm start`. Express serves the com
 
 The Vite frontend and Express API deploy together under one HTTPS domain. `api/index.js` exports the existing Express app; `vercel.json` routes `/api/*` to that function and serves the Vite build from `dist`. No Docker runtime is needed on Vercel.
 
-1. Import this repository into Vercel. Use the repository root, Vite framework, Node 24, install command `npm ci`, build command `npm run build`, and output directory `dist`.
+1. Import this repository into Vercel. Use the repository root, Vite framework, Node 24, install command `npm ci --include=dev`, build command `npm run build`, and output directory `dist`.
 2. Provision a dedicated PostgreSQL database through the Neon integration (or connect an existing database). Use its pooled SSL connection string as the server-only `DATABASE_URL`.
 3. Set `NODE_ENV=production` and `APP_TIMEZONE=Asia/Kolkata`. Do not set `SWEETY_QA_DATABASE`, `PORT`, or any `VITE_` database variable. Use a separate database/branch for Preview deployments rather than sharing production data.
 4. Pull the intended environment into an ignored local env file, then run the migration once against that new database. For example, after linking the correct Vercel project, `vercel env pull .env.production.local --environment=production`, then `node --env-file=.env.production.local server/migrate.js`.
